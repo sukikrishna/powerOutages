@@ -60,6 +60,36 @@ Here, we see the spread of power outages over the years, separated by causes. Fr
 
 ## Assessment of Missingness
 
+The data set describes: The major outages are described in terms of the duration of the outage event and the total number of customers affected during that event.
+
+NMAR: Missing power outages likely have a smaller OUTAGE.DURATION and fewer TOTAL.CUSTOMERS since the data was only collected for major power outages.
+
+We believe CUSTOMERS.AFFECTED is NMAR because the dataset would be less likely to record the number if there are few customers affected.
+
+MAR: CLIMATE.REGION is MAR because it's only missing for states that aren't part of the mainland US: Alaska and Hawaii.
+
+MD: HURRICANE.NAMES is missing by design. It only has a value if CAUSE.CATEGORY.DETAIL is hurricanes
+
+The test statistic is the TVD between the distribution of causes when the cause details are missing or not missing
+
+We perform a permutation test to check if CAUSE.CATEGORY.DETAIL missingness depends on CAUSE.CATEGORY
+
+<iframe 
+  src="assets/Empirical_Distribution_of_the_TVD.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
+
+<iframe 
+  src="assets/Empirical_Distribution_of_the_Observed_Statistic.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
+
+As the pvalue is close to 1 that suggests the data is missing completely at random (MCAR). CAUSE.CATEGORY.DETAIL missingness does not depend on CAUSE.CATEGORY.
+
 ## Hypothesis Testing
 
 ## Framing a Prediction Problem
