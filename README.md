@@ -16,11 +16,47 @@ For our analysis, we will answer aim to analyze the following hypothesis:
 
 ## Data Cleaning and Exploratory Data Analysis
 
-We deleted rows and a column that didn't have data. Then we converted the excel file into a csv.
+We deleted rows and a column that didn't have data. Then we converted the Excel file into a CSV.
 
-The MONTH column was changed from floats to ints since they're all whole numbers. For both MONTHS and CUSTOMERS.AFFECTED, we filled NaN values with 0. We could assume that if CUSTOMERS.AFFECTED was so insignificant that it wasn't recorded, then there probably wasn't anyone affected.
+The MONTH column was changed from floats to ints since they are all whole numbers. For both MONTHS and CUSTOMERS.AFFECTED, we filled NaN values with 0. We could assume that if CUSTOMERS.AFFECTED was so insignificant that it wasn't recorded, there probably wasn't anyone affected.
 
-For the purposes of our hypothesis test, we converted the CAUSE.CATEGORY column into binary "severe weather" and "other" for any other cause. The YEARS column was converted to a binary year_range column to specify if the power outage occured in the first half or second half of our data time range. We don't have any missing data in either of these categories.
+For the purposes of our hypothesis test, we converted the CAUSE.CATEGORY column into a binary column of values "severe weather" and "other" for any other cause. The YEARS column was converted to a binary "year_range" column to specify if the power outage occurred in the first half or second half of our data time range (2000-2008 and 2009-2016 respectively). We don't have any missing data in either of these categories.
+
+<iframe 
+  src="assets/Number_of_Power_Outages_over_Time.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
+
+This plot shows the number of power outages each year. We see that there was a spike in 2011 and it has been relatively decreasing ever since.
+
+<iframe 
+  src="assets/Causes_of_Power_Outages.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
+
+Here is displayed a bar plot representing the number of power outages in the dataset due to each cause. Severe weather is the most common cause followed by intentional attack.
+
+<iframe 
+  src="assets/Ratio_of_Power_Outages_due_to_Severe_Weather_over_Time.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
+
+Here we have the yearly trend of the proportion of power outages due to severe weather. It seems like it decreased over time. We will therefore also test an alternate hypothesis: The ratio of power outages due to severe weather from 2000-2008 is more than the overall ratio of power outages due to severe weather.
+
+<iframe 
+  src="assets/Spread_of_Power_Outages_due_to_Causes.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
+
+Here, we see the spread of power outages over the years, separated by causes. From these visualizations, we see that the ratio of power outages due to severe weather actually decreases over time rather than increases. This plot seems to imply that there were relatively more power outages due to other causes in later years and more power outages overall.
 
 ## Assessment of Missingness
 
