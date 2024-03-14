@@ -1,1 +1,1 @@
-# powerOutages.github.io
+# Power Outages Analysis
