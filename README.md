@@ -81,6 +81,16 @@ We perform a permutation test to check if CAUSE.CATEGORY.DETAIL missingness depe
   frameborder="0"
 ></iframe>
 
+As the pvalue is close to 1 that suggests the data is missing completely at random (MCAR). CAUSE.CATEGORY.DETAIL missingness does not depend on CAUSE.CATEGORY.
+
+## Hypothesis Testing
+
+Null hypothesis: The ratio of power outages due to severe weather from 2000-2008 is equal to the ratio of power outages due to severe weather overall.
+
+Alternative hypothesis: The ratio of power outages due to severe weather from 2000-2008 is more than the ratio of power outages due to severe weather overall.
+
+The test statistic is the proportion of power outages that have CAUSE.CATEGORY of severe weather
+
 <iframe 
   src="assets/Empirical_Distribution_of_the_Observed_Statistic.html"
   width="800"
@@ -88,13 +98,26 @@ We perform a permutation test to check if CAUSE.CATEGORY.DETAIL missingness depe
   frameborder="0"
 ></iframe>
 
-As the pvalue is close to 1 that suggests the data is missing completely at random (MCAR). CAUSE.CATEGORY.DETAIL missingness does not depend on CAUSE.CATEGORY.
-
-## Hypothesis Testing
+The p-value is 0.0. We reject the null hypothesis that the proportion of power outages due to severe weather are similar between 2000-2008 and overall number of power outages in favor of the alternative hypothesis in favor of the alternative hypothesis that the ratio of power outages due to severe weather from 2000-2008 is more than the ratio of power outages due to severe weather overall.
 
 ## Framing a Prediction Problem
 
+Relevant covariates/predictors: all quantitative variables
+
+Target variable: 'TOTAL.PRICE'
+
+As we've proven, power outages due to severe weather has decreased over the years, so it's clear that YEARS can be used as a predictor for CAUSE.CATEGORY. There tends to be more severe weather in winter, so the MONTHS column would also be relevant. Similarly, CLIMATE.REGION and ANOMALY.LEVEL will show which areas and when are more likely to have severe weather. We believe that OUTAGE.DURATION will be relevant because all sorts of causes would take a different amount of time to fix. We assume that the higher TOTAL.SALES are, the more likely the cause is islanding because more people would use more power.
+
+The remaining features in the dataset are either derived from the predictors that we have chosen, or are features that may not be as relevant to the causes of power outages.
+
 ## Baseline Model
+
+<iframe 
+  src="assets/Correlation.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
 
 ## Final Model
 
