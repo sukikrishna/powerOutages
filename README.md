@@ -47,7 +47,7 @@ Here is displayed a bar plot representing the number of power outages in the dat
   frameborder="0"
 ></iframe>
 
-Here we have the yearly trend of the proportion of power outages due to severe weather. It seems like it decreased over time. We will therefore also test an alternate hypothesis: The ratio of power outages due to severe weather from 2000-2008 is more than the overall ratio of power outages due to severe weather.
+Here we have the yearly trend of the proportion of power outages due to severe weather. It seems like it decreased over time. We will therefore test an alternate hypothesis: The ratio of power outages due to severe weather from 2000-2008 is more than the overall ratio of power outages due to severe weather.
 
 <iframe 
   src="assets/Spread_of_Power_Outages_due_to_Causes.html"
