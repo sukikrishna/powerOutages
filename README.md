@@ -22,6 +22,13 @@ The MONTH column was changed from floats to ints since they are all whole number
 
 For the purposes of our hypothesis test, we converted the CAUSE.CATEGORY column into a binary column of values "severe weather" and "other" for any other cause. The YEARS column was converted to a binary "year_range" column to specify if the power outage occurred in the first half or second half of our data time range (2000-2008 and 2009-2016 respectively). We don't have any missing data in either of these categories.
 
+ | OBS | YEAR | MONTH | U.S._STATE | POSTAL.CODE | NERC.REGION | CLIMATE.REGION | OUTAGE.START.DATE | ... | #10 | #11
+--- | --- | --- | --- |--- |--- |--- |--- |--- |--- |--- |---
+Seconds | 301 | 283 | 290 | 286 | 289 | 285 | 287 | 287 | 272 | 276 | 269
+| Attempt | #1 | #2 | #3 | #4 | #5 | #6 | #7 | #8 | #9 | #10 | #11 | #12 |
+| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| Seconds | 301 | 283 | 290 | 286 | 289 | 285 | 287 | 287 | 272 | 276 | 269 | 254 |
+
 <iframe 
   src="assets/Number_of_Power_Outages_over_Time.html"
   width="800"
@@ -47,7 +54,7 @@ Here is displayed a bar plot representing the number of power outages in the dat
   frameborder="0"
 ></iframe>
 
-Here we have the yearly trend of the proportion of power outages due to severe weather. It seems like it decreased over time. We will therefore also test an alternate hypothesis: The ratio of power outages due to severe weather from 2000-2008 is more than the overall ratio of power outages due to severe weather.
+Here we have the yearly trend of the proportion of power outages due to severe weather. It seems like it decreased over time. We will therefore test an alternate hypothesis: The ratio of power outages due to severe weather from 2000-2008 is more than the overall ratio of power outages due to severe weather.
 
 <iframe 
   src="assets/Spread_of_Power_Outages_due_to_Causes.html"
@@ -102,15 +109,13 @@ The p-value is 0.0. We reject the null hypothesis that the proportion of power o
 
 ## Framing a Prediction Problem
 
-Relevant covariates/predictors: all quantitative variables
+Relevant covariates/predictors: TOTAL.PRICE, COM.PERCEN, POPPCT_UC
 
-Target variable: 'TOTAL.PRICE'
+Target variable: 'IND.PERCEN'
 
-As we've proven, power outages due to severe weather has decreased over the years, so it's clear that YEARS can be used as a predictor for CAUSE.CATEGORY. There tends to be more severe weather in winter, so the MONTHS column would also be relevant. Similarly, CLIMATE.REGION and ANOMALY.LEVEL will show which areas and when are more likely to have severe weather. We believe that OUTAGE.DURATION will be relevant because all sorts of causes would take a different amount of time to fix. We assume that the higher TOTAL.SALES are, the more likely the cause is islanding because more people would use more power.
+Using the correlation matrix below, we wanted to find a column to predict that had some correlation but wasn't too easy to predict. For example, predicting TOTAL.SALES would be too easy as it's just the sum of RES.SALES, COM.SALES, and IND.SALES. We found that, using regression, IND.PERCEN would be a good variable with okay correlation. It would also be good to predict how much of the total electricity consumption in a state comes from industry rather than residents because so many state policies try to limit electricity consumption by residents while ignoring just how much is consumed by industry.
 
-The remaining features in the dataset are either derived from the predictors that we have chosen, or are features that may not be as relevant to the causes of power outages.
-
-## Baseline Model
+We will use accuracy in predicting because we want our model predicting as closely as possible to the actual IND.PERCEN. It doesn't matter if it's over or under.
 
 <iframe 
   src="assets/Correlation.html"
@@ -119,9 +124,36 @@ The remaining features in the dataset are either derived from the predictors tha
   frameborder="0"
 ></iframe>
 
+The remaining features in the dataset are either derived from the predictors that we have chosen, or are features that may not be as relevant to the causes of power outages.
+
+## Baseline Model
+
+We used KNeighborsRegressor with 20 neighbors. We chose our predictors by checking which features correlated the most with IND.PERCEN. They are all quantitative. The accuracy score ended up being around .786. It works okay, but we want a more accurate predictor.
+
 ## Final Model
 
+We engineered all our relevant columns to have a standard distribution with the StandardScaler transformer to normalize the data. This doesn't change anything for most regressor's but it does make a difference for ours, KNeighborsRegressor, because the distance isn't being heavily over-influenced by the larger numbers in the COM.PERCEN column. Afterwards, we used QuantileTransformer to turn every column into quantiles because we believed that the small differences in each number didn't make too much of a difference in the values of IND.PERCEN.
+
+We found the best hyperparameters n_quantiles and n_neighbors through GridSearchCV. Testing quantiles of range(20, 1001, 20) and neighbors of range(1, 31), the best n_quantiles was 500, and the best n_neighbors was 2. We believe the best n_neighbors is so low because each city is very different from one another in their industries, geography, and population.
+
+The final model's accuracy is 0.896, a 12% increase over our baseline model.
+
 ## Fairness Analysis
+
+We'll test this model for fairness among earlier years (2000-2008) and later years (2009-2016).
+
+Null Hypothesis: The model performs the same for earlier years (2000-2008) and later years (2009-2016).
+
+Alternative Hypothesis: The model performs worse for earlier years (2000-2008) than later years (2009-2016).
+
+<iframe 
+  src="assets/Empirical_Distribution_of_the_Observed_Fairness_Statistic.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
+
+We used TVD with significance level 0.05. The resulting p-value was 0.8, which is greater than 0.05, so there is no significant evidence that the model performs differently on earlier years and later years.
 
 ## References
 [1] Sayanti Mukherjee, Roshanak Nateghi, Makarand Hastak, Data on major power outage events in the continental U.S., Data in Brief, Volume 19, 2018, Pages 2079-2083, ISSN 2352-3409, https://doi.org/10.1016/j.dib.2018.06.067. (https://www.sciencedirect.com/science/article/pii/S2352340918307182)
