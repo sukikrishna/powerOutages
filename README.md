@@ -6,13 +6,19 @@ This dataset has information about every major power outage in the United States
 
 This dataset contains 1534 observations and 56 features. The features include the time and date of power outage occurrences, location, duration, causes of the events, electricity consumption, and regional and economic characteristics.
 
-It's important to understand why power outages are happening, so we'd be better prepared for them. There are many questions that we may strive to answer: With the increase of climate change, has there been more severe weather over the years? Are electricity companies keeping up and updating the protection of their facilities from severe weather? Are there more power outages now than in the past (climate change) (grouped 2000-2008 and 2009-2016)? Is there an upward trend? By ratio, are there more power outages now due to severe weather compared to the past?
+We strive to anser the question: What causes power outages and who do they affect?
+
+It's important to understand why power outages are happening, so we'd be better prepared for them. There are many questions that we may strive to answer. With the increase of climate change, has there been more severe weather over the years? Are electricity companies keeping up and updating the protection of their facilities from severe weather? Are there more power outages now than in the past (climate change) (grouped 2000-2008 and 2009-2016)? Is there an upward trend? By ratio, are there more power outages now due to severe weather compared to the past? Are industries using more electricity than residents? These questions are important if we want to minimize power outages and their disasterous effects on daily lives and the economy.
 
 For our analysis, we will answer aim to analyze the following hypothesis:
 
 *Null hypothesis*: The ratio of power outages due to severe weather from 2000-2008 is the same as the ratio of power outages overall.
 
 *Alternative hypothesis*: The ratio of power outages due to severe weather from 2000-2008 is less than the ratio of power outages overall.
+
+Our relevant columns for this are YEAR and CAUSE.CATEGORY. YEAR states the year of the particular power outage. CAUSE.CATEGORY states the cause as one of seven: equipment failure, fuel supply emergency, intentional attack, islanding, public appeal, severe weather, and system operability disruption.
+
+The relevant columns for the people affected by power outages are TOTAL.PRICE, COM.PERCEN, POPPCT_UC, and IND.PERCEN. TOTAL.PRICE is Average monthly electricity price in the U.S. state (cents/kilowatt-hour). COM.PERCEN is Percentage of commercial electricity consumption compared to the total electricity consumption in the state (in %). POPPCT_UC is Percentage of the total population of the U.S. state represented by the population of the urban clusters (in %). IND.PERCEN is Percentage of industrial electricity consumption compared to the total electricity consumption in the state (in %).
 
 ## Data Cleaning and Exploratory Data Analysis
 
@@ -22,12 +28,12 @@ The MONTH column was changed from floats to ints since they are all whole number
 
 For the purposes of our hypothesis test, we converted the CAUSE.CATEGORY column into a binary column of values "severe weather" and "other" for any other cause. The YEARS column was converted to a binary "year_range" column to specify if the power outage occurred in the first half or second half of our data time range (2000-2008 and 2009-2016 respectively). We don't have any missing data in either of these categories.
 
- | OBS | YEAR | MONTH | U.S._STATE | POSTAL.CODE | NERC.REGION | CLIMATE.REGION | OUTAGE.START.DATE | ... | #10 | #11
---- | --- | --- | --- |--- |--- |--- |--- |--- |--- |--- |---
-Seconds | 301 | 283 | 290 | 286 | 289 | 285 | 287 | 287 | 272 | 276 | 269
-| Attempt | #1 | #2 | #3 | #4 | #5 | #6 | #7 | #8 | #9 | #10 | #11 | #12 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Seconds | 301 | 283 | 290 | 286 | 289 | 285 | 287 | 287 | 272 | 276 | 269 | 254 |
+<iframe 
+  src="assets/df.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
 
 <iframe 
   src="assets/Number_of_Power_Outages_over_Time.html"
@@ -48,13 +54,20 @@ This plot shows the number of power outages each year. We see that there was a s
 Here is displayed a bar plot representing the number of power outages in the dataset due to each cause. Severe weather is the most common cause followed by intentional attack.
 
 <iframe 
+  src="assets/pivot.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
+
+<iframe 
   src="assets/Ratio_of_Power_Outages_due_to_Severe_Weather_over_Time.html"
   width="800"
   height="600"
   frameborder="0"
 ></iframe>
 
-Here we have the yearly trend of the proportion of power outages due to severe weather. It seems like it decreased over time. We will therefore test an alternate hypothesis: The ratio of power outages due to severe weather from 2000-2008 is more than the overall ratio of power outages due to severe weather.
+Here we have the yearly trend of the proportion of power outages due to severe weather shown in both pivot table form and bar graph form. It seems like it decreased over time. We will therefore test an alternate hypothesis: The ratio of power outages due to severe weather from 2000-2008 is more than the overall ratio of power outages due to severe weather.
 
 <iframe 
   src="assets/Spread_of_Power_Outages_due_to_Causes.html"
