@@ -53,8 +53,6 @@ This plot shows the number of power outages each year. We see that there was a s
 
 Here is displayed a bar plot representing the number of power outages in the dataset due to each cause. Severe weather is the most common cause followed by intentional attack.
 
-HERE
-
 <iframe 
   src="assets/pivot.html"
   width="800"
