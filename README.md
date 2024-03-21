@@ -46,7 +46,7 @@ Before analyzing our power outage dataset, we would first conduct data cleaning 
 
 We deleted the rows and columns that didn't have data on the Excel file containing the raw data, then we converted the Excel file into a CSV file.
 
-The first 5 rows of the raw DataFrame is shown in the following table:
+The first 5 rows of the raw DataFrame are shown in the following table:
 
 <iframe 
   src="assets/df_full.html"
@@ -154,7 +154,7 @@ As observed from the graph above, the p-value is close to 0, which is within the
   frameborder="0"
 ></iframe>
 
-As observed from the graph above, the p-value is close to 1, which is outside the significance level of 0.05 (5%). We faile to reject the null hypothesis. `CAUSE.CATEGORY.DETAIL` missingness does not depend on `HURRICANE.NAMES`.
+As observed from the graph above, the p-value is close to 1, which is outside the significance level of 0.05 (5%). We fail to reject the null hypothesis. `CAUSE.CATEGORY.DETAIL` missingness does not depend on `HURRICANE.NAMES`.
 
 
 ## Hypothesis Testing
