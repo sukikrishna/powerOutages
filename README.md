@@ -2,7 +2,7 @@
 
 The "Major Power Outage Risks in the U.S." dataset comes from the Laboratory for Advancing Sustainable Critical Infrastructure at Purdue University.
 
-This dataset has information about every major power outage in the United States between January 2000 and July 2016. There are 55 variables containing information that might explain how these power outages happened and how they were fixed. This dataset obtained its information from (i) OE-417 form Schedule 1 published by DOE׳s Office of Electricity Delivery and Energy Reliability; (ii) U.S. Energy Information Administration (EIA) [form EIA-826 and EIA-861]; (iii) National Oceanic and Atmospheric Administration (NOAA); (iv) National Climatic Data Center (NCDC); (v) U.S. Department of Labor; Bureau of Labor Statistics; and, (vi) U.S. Census Bureau [1]. 
+This dataset has information about every major power outage in the United States between January 2000 and July 2016. There are 55 variables containing information that might explain how these power outages happened and how they were fixed. This dataset obtained its information from (i) OE-417 form Schedule 1 published by DOE׳s Office of Electricity Delivery and Energy Reliability; (ii) U.S. Energy Information Administration (EIA) [form EIA-826 and EIA-861]; (iii) National Oceanic and Atmospheric Administration (NOAA); (iv) National Climatic Data Center (NCDC); (v) U.S. Department of Labor; Bureau of Labor Statistics; and, (vi) U.S. Census Bureau [1].
 
 This dataset contains 1534 observations and 56 features. The features include the time and date of power outage occurrences, location, duration, causes of the events, electricity consumption, and regional and economic characteristics.
 
