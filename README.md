@@ -21,7 +21,7 @@ For our analysis, we will answer aim to analyze the following hypothesis:
 Our relevant columns for this are YEAR and CAUSE.CATEGORY. YEAR states the year of the particular power outage. CAUSE.CATEGORY states the cause as one of seven: equipment failure, fuel supply emergency, intentional attack, islanding, public appeal, severe weather, and system operability disruption.
 
 The relevant columns for the people affected by power outages are TOTAL.PRICE, COM.PERCEN, POPPCT_UC, and IND.PERCEN. TOTAL.PRICE is the average monthly electricity price in the U.S. state (cents/kilowatt-hour). COM.PERCEN is the percentage of commercial electricity consumption compared to the total electricity consumption in the state (in %). POPPCT_UC is the percentage of the total population of the U.S. state represented by the population of the urban clusters (in %). IND.PERCEN is the percentage of industrial electricity consumption compared to the total electricity consumption in the state (in %). Detailed descriptions of the main features we included are listed in the following table linked [1].
-         
+
 |Column	                 |Description|
 |---                     |---        |
 |`'YEAR'	`              |Indicates the year when the outage event occurred|
@@ -33,6 +33,10 @@ The relevant columns for the people affected by power outages are TOTAL.PRICE, C
 |`'COM.PERCEN'`	         |Percentage of commercial electricity consumption compared to the total electricity consumption in the state (in %)|
 |`'IND.PERCEN'`	         |Percentage of industrial electricity consumption compared to the total electricity consumption in the state (in %)|
 |`'POPPCT_UC'`	         |Percentage of the total population of the U.S. state represented by the population of the urban clusters (in %)|
+|`'OUTAGE.DURATION'`	       |Duration of outage events (in minutes)|
+|`'TOTAL.CUSTOMERS'`	       |Annual number of total customers served in the U.S. state|
+|`'CLIMATE.REGION'`	       |U.S. Climate regions as specified by National Centers for Environmental Information (nine climatically consistent regions in continental U.S.A.)|
+|`'HURRICANE.NAMES'`	       |If the outage is due to a hurricane, then the hurricane name is given by this variable|
 
 ## Data Cleaning and Exploratory Data Analysis
 
@@ -100,19 +104,19 @@ Here, we see the spread of power outages over the years, separated by causes. Fr
 
 ## Assessment of Missingness
 
-The data set describes: The major outages are described in terms of the duration of the outage event and the total number of customers affected during that event.
+In the data set, the major outages are described in terms of the duration of the outage event and the total number of customers affected during that event.
 
-NMAR: Missing power outages likely have a smaller OUTAGE.DURATION and fewer TOTAL.CUSTOMERS since the data was only collected for major power outages.
+NMAR: Missing power outages likely have a smaller `OUTAGE.DURATION` and fewer `TOTAL.CUSTOMERS` since the data was only collected for major power outages.
 
-We believe CUSTOMERS.AFFECTED is NMAR because the dataset would be less likely to record the number if there are few customers affected.
+We believe `CUSTOMERS.AFFECTED` is NMAR because the dataset would be less likely to record the number if there are few customers affected.
 
-MAR: CLIMATE.REGION is MAR because it's only missing for states that aren't part of the mainland US: Alaska and Hawaii.
+MAR: `CLIMATE.REGION` is MAR because it's only missing for states that aren't part of the mainland US -- Alaska and Hawaii.
 
-MD: HURRICANE.NAMES is missing by design. It only has a value if CAUSE.CATEGORY.DETAIL is hurricanes
+MD: `HURRICANE.NAMES` is missing by design. It only has a value if `CAUSE.CATEGORY.DETAIL` is hurricanes
 
 The test statistic is the TVD between the distribution of causes when the cause details are missing or not missing
 
-We perform a permutation test to check if CAUSE.CATEGORY.DETAIL missingness depends on CAUSE.CATEGORY
+We perform a permutation test to check if the `CAUSE.CATEGORY.DETAIL` missingness depends on `CAUSE.CATEGORY`
 
 <iframe 
   src="assets/Empirical_Distribution_of_the_TVD.html"
