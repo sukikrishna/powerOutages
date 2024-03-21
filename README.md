@@ -137,7 +137,7 @@ We perform a permutation test to check if the `CAUSE.CATEGORY.DETAIL` missingnes
 As observed from the graph above, the p-value is close to 0, which is within the significance level of 0.05 (5%). If the p-value were within the threshold that would suggest that the data is missing completely at random (MCAR). We reject the null hypothesis in favor of the alternative hypothesis that `CAUSE.CATEGORY.DETAIL` missingness <u>does</u> depend on `CAUSE.CATEGORY`.
 
 
-
+**NEED MISSINGNESS OF COLUMN DEPENDENT AND NOT DEPENDENT ON SELECTED COLUMN**
 
 
 As observed from the graph above, the p-value is close to 1 far greater than our significance level of 0.05 (5%). If the p-value were within the threshold that would suggest that the data is missing completely at random (MCAR). We fail to reject the null hypothesis that `CAUSE.CATEGORY.DETAIL` missingness <u>does not</u> depend on `CAUSE.CATEGORY`.
@@ -180,27 +180,31 @@ The remaining features in the dataset are either derived from the predictors tha
 
 ## Baseline Model
 
-The baseline model consists of a pipeline that includes a K-Nearest Neighbors (KNN) regression model to predict the 'IND.PERCEN' variable based on features 'TOTAL.PRICE', 'COM.PERCEN', and 'POPPCT_UC'. We chose our predictors by checking which features correlated the most with `IND.PERCEN`.
+The baseline model consists of a pipeline that includes a K-Nearest Neighbors (KNN) regression model to predict the 'IND.PERCEN' variable based on features `TOTAL.PRICE`, `COM.PERCEN`, and `POPPCT_UC`. We chose our predictors by checking which features correlated the most with `IND.PERCEN`.
 
 The K-Nearest Neighbors (KNN) regression model is being tested because this algorithm is a common approach for predicting the value of a target variable by finding the k closest data points in the feature space to the input data point and averaging their target values to form the final prediction.
 
-All three features in the model ('TOTAL.PRICE', 'COM.PERCEN', and 'POPPCT_UC') are quantitative, and there are no ordinal or nominal features.
+All three features in the model (`TOTAL.PRICE`, `COM.PERCEN`, and `POPPCT_UC`) are quantitative, and there are no ordinal or nominal features.
 
 For the baseline model, no explicit encoding was performed.
 
 The model's performance is evaluated using the R-squared metric, which measures the proportion of the variance in the target variable that is predictable from the input features. Generally, higher R-squared values closer to 1 indicate better predictive performance.
 
-The `KNeighborsRegressor` was initialized with a parameter of 20 neighbors. The accuracy score ended up being around 0.786. 
+The `KNeighborsRegressor` was initialized with a parameter of 20 neighbors. The accuracy score ended up being around 0.786.
 
 It works okay, but we want a more accurate predictor.
 
 ## Final Model
 
-We engineered all our relevant columns to have a standard distribution with the StandardScaler transformer to normalize the data. This doesn't change anything for most regressor's but it does make a difference for ours, KNeighborsRegressor, because the distance isn't being heavily over-influenced by the larger numbers in the `COM.PERCEN` column. Afterwards, we used QuantileTransformer to turn every column into quantiles because we believed that the small differences in each number didn't make too much of a difference in the values of `IND.PERCEN`.
+The same features and modeling algorithm were utilized for our improved model, however, we engineered all our relevant columns to have a standard distribution with the StandardScaler transformer to normalize the data. Standardizing the features using StandardScaler means each feature will have a mean of 0 and a standard deviation of 1. This doesn't change anything for most regressors, but it does make a difference for our KNeighborsRegressor because the distance isn't being heavily over-influenced by the larger numbers in the `COM.PERCEN` column.
 
-We found the best hyperparameters n_quantiles and n_neighbors through GridSearchCV. Testing quantiles of range(20, 1001, 20) and neighbors of range(1, 31), the best n_quantiles was 500, and the best n_neighbors was 2. We believe the best n_neighbors is so low because each city is very different from one another in their industries, geography, and population.
+Afterward, we used `QuantileTransformer` to turn every column into quantiles because we believed that the small differences in each number didn't make too much of a difference in the values of `IND.PERCEN`. Transforming the data into quantiles using QuantileTransformer can help mitigate the influence of outliers.
 
-The final model's accuracy is 0.896, a 12% increase over our baseline model.
+For hyperparameter tuning, we found the best hyperparameters n_quantiles for the `QuantileTransformer` and n_neighbors for the `KNeighborsRegressor` through `GridSearchCV`. Grid Search performs an exhaustive search across specified hyperparameter ranges to find the best combination of parameters that maximizes model performance.
+
+Testing 'n_quantiles' of `range(20, 1001, 20)` and 'n_neighbors' of `range(1, 31)`, the best 'n_quantiles' was 500, and the best 'n_neighbors' was 2. We believe the best 'n_neighbors' are so low because each city is very different from one another in their industries, geography, and population.
+
+The final model achieved an accuracy of 0.896, which is a 12% improvement over the baseline model's performance. This improvement indicates that applying the feature engineering techniques, along with hyperparameter tuning, effectively enhanced the model's predictive capability.
 
 ## Fairness Analysis
 
