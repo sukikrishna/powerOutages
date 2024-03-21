@@ -151,7 +151,7 @@ The test statistic is the proportion of power outages that have `CAUSE.CATEGORY`
   frameborder="0"
 ></iframe>
 
-The p-value is 0.0. We reject the null hypothesis that the proportion of power outages due to severe weather is similar between 2000-2008 and an overall number of power outages in favor of the alternative hypothesis in favor of the alternative hypothesis that the ratio of power outages due to severe weather from 2000-2008 is more than the ratio of power outages due to severe weather overall.
+The p-value is 0.0. We reject the null hypothesis that the proportion of power outages due to severe weather is similar between 2000-2008 and an overall number of power outages in favor of the alternative hypothesis that the ratio of power outages due to severe weather from 2000-2008 is more than the ratio of power outages due to severe weather overall.
 
 ## Framing a Prediction Problem
 
