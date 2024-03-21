@@ -1,14 +1,16 @@
 ## Introduction
 
+Understanding the causes of power outages and who they affect can be an important analysis for ensuring the efficiency and reliability of current infrastructure to prevent or be prepared for future occurrences. 
+
 The "Major Power Outage Risks in the U.S." dataset comes from the Laboratory for Advancing Sustainable Critical Infrastructure at Purdue University.
 
 This dataset has information about every major power outage in the United States between January 2000 and July 2016. There are 55 variables containing information that might explain how these power outages happened and how they were fixed. This dataset obtained its information from (i) OE-417 form Schedule 1 published by DOE׳s Office of Electricity Delivery and Energy Reliability; (ii) U.S. Energy Information Administration (EIA) [form EIA-826 and EIA-861]; (iii) National Oceanic and Atmospheric Administration (NOAA); (iv) National Climatic Data Center (NCDC); (v) U.S. Department of Labor; Bureau of Labor Statistics; and, (vi) U.S. Census Bureau [1].
 
-This dataset contains 1534 observations and 56 features. The features include the time and date of power outage occurrences, location, duration, causes of the events, electricity consumption, and regional and economic characteristics.
+This dataset contains 1534 observations and 56 features. The features include the time and date of power outage occurrences, location, duration, causes of the events, electricity consumption, and regional and economic characteristics. In analyzing this comprehensive dataset, one of our goals is to provide insights into power outage patterns to help create informed decisions on preparing for future power outage disasters.
 
-We strive to anser the question: What causes power outages and who do they affect?
+It's important to understand why power outages are happening, so we'd be better prepared for them. There are many questions that we may strive to answer. With the increase of climate change, has there been more severe weather over the years? Are electricity companies keeping up and updating the protection of their facilities from severe weather? Are there more power outages now than in the past (climate change) (grouped 2000-2008 and 2009-2016)? Is there an upward trend? By ratio, are there more power outages now due to severe weather compared to the past? Are industries using more electricity than residents? These questions are important if we want to minimize power outages and their disastrous effects on daily lives and the economy.
 
-It's important to understand why power outages are happening, so we'd be better prepared for them. There are many questions that we may strive to answer. With the increase of climate change, has there been more severe weather over the years? Are electricity companies keeping up and updating the protection of their facilities from severe weather? Are there more power outages now than in the past (climate change) (grouped 2000-2008 and 2009-2016)? Is there an upward trend? By ratio, are there more power outages now due to severe weather compared to the past? Are industries using more electricity than residents? These questions are important if we want to minimize power outages and their disasterous effects on daily lives and the economy.
+We strive to answer the question: What causes power outages and who do they affect?
 
 For our analysis, we will answer aim to analyze the following hypothesis:
 
@@ -18,7 +20,19 @@ For our analysis, we will answer aim to analyze the following hypothesis:
 
 Our relevant columns for this are YEAR and CAUSE.CATEGORY. YEAR states the year of the particular power outage. CAUSE.CATEGORY states the cause as one of seven: equipment failure, fuel supply emergency, intentional attack, islanding, public appeal, severe weather, and system operability disruption.
 
-The relevant columns for the people affected by power outages are TOTAL.PRICE, COM.PERCEN, POPPCT_UC, and IND.PERCEN. TOTAL.PRICE is Average monthly electricity price in the U.S. state (cents/kilowatt-hour). COM.PERCEN is Percentage of commercial electricity consumption compared to the total electricity consumption in the state (in %). POPPCT_UC is Percentage of the total population of the U.S. state represented by the population of the urban clusters (in %). IND.PERCEN is Percentage of industrial electricity consumption compared to the total electricity consumption in the state (in %).
+The relevant columns for the people affected by power outages are TOTAL.PRICE, COM.PERCEN, POPPCT_UC, and IND.PERCEN. TOTAL.PRICE is the average monthly electricity price in the U.S. state (cents/kilowatt-hour). COM.PERCEN is the percentage of commercial electricity consumption compared to the total electricity consumption in the state (in %). POPPCT_UC is the percentage of the total population of the U.S. state represented by the population of the urban clusters (in %). IND.PERCEN is the percentage of industrial electricity consumption compared to the total electricity consumption in the state (in %). Detailed descriptions of the main features we included are listed in the following table linked [1].
+         
+|Column	                 |Description|
+|---                     |---        |
+|`'YEAR'	`              |Indicates the year when the outage event occurred|
+|`'MONTH'`	             |Indicates the month when the outage event occurred|
+|`'CUSTOMERS.AFFECTED'`	 |Number of customers affected by the power outage event|
+|`'CAUSE.CATEGORY'`	     |Categories of all the events causing the major power outages|
+|`'CAUSE.CATEGORY.DETAIL'`	 |Detailed description of the event categories causing the major power outages|
+|`'TOTAL.PRICE'`	       |Average monthly electricity price in the U.S. state (cents/kilowatt-hour)|
+|`'COM.PERCEN'`	         |Percentage of commercial electricity consumption compared to the total electricity consumption in the state (in %)|
+|`'IND.PERCEN'`	         |Percentage of industrial electricity consumption compared to the total electricity consumption in the state (in %)|
+|`'POPPCT_UC'`	         |Percentage of the total population of the U.S. state represented by the population of the urban clusters (in %)|
 
 ## Data Cleaning and Exploratory Data Analysis
 
