@@ -18,9 +18,9 @@ For our analysis, we will answer aim to analyze the following hypothesis:
 
 *Alternative hypothesis*: The ratio of power outages due to severe weather from 2000-2008 is less than the ratio of power outages overall.
 
-Our relevant columns for this are YEAR and CAUSE.CATEGORY. YEAR states the year of the particular power outage. CAUSE.CATEGORY states the cause as one of seven: equipment failure, fuel supply emergency, intentional attack, islanding, public appeal, severe weather, and system operability disruption.
+Relevant columns for this test are `YEAR` and `CAUSE.CATEGORY`. `YEAR` states the year of the particular power outage. `CAUSE.CATEGORY` states the cause as one of seven: equipment failure, fuel supply emergency, intentional attack, islanding, public appeal, severe weather, and system operability disruption.
 
-The relevant columns for the people affected by power outages are TOTAL.PRICE, COM.PERCEN, POPPCT_UC, and IND.PERCEN. TOTAL.PRICE is the average monthly electricity price in the U.S. state (cents/kilowatt-hour). COM.PERCEN is the percentage of commercial electricity consumption compared to the total electricity consumption in the state (in %). POPPCT_UC is the percentage of the total population of the U.S. state represented by the population of the urban clusters (in %). IND.PERCEN is the percentage of industrial electricity consumption compared to the total electricity consumption in the state (in %). Detailed descriptions of the main features we included are listed in the following table linked [1].
+The relevant columns for the people affected by power outages are `TOTAL.PRICE`, `COM.PERCEN`, `POPPCT_UC`, and `IND.PERCEN`. Detailed descriptions of the relevant features we included are listed in the following table [1]. More detailed descriptions of other features included in the raw dataset can be found in this [article](https://www.sciencedirect.com/science/article/pii/S2352340918307182) under "Table 1: Variable descriptions".
 
 |Column	                 |Description|
 |---                     |---        |
@@ -125,7 +125,7 @@ We perform a permutation test to check if the `CAUSE.CATEGORY.DETAIL` missingnes
   frameborder="0"
 ></iframe>
 
-As the pvalue is close to 1 that suggests the data is missing completely at random (MCAR). CAUSE.CATEGORY.DETAIL missingness does not depend on CAUSE.CATEGORY.
+As the pvalue is close to 1 that suggests the data is missing completely at random (MCAR). `CAUSE.CATEGORY.DETAIL` missingness does not depend on `CAUSE.CATEGORY`.
 
 ## Hypothesis Testing
 
@@ -133,7 +133,7 @@ Null hypothesis: The ratio of power outages due to severe weather from 2000-2008
 
 Alternative hypothesis: The ratio of power outages due to severe weather from 2000-2008 is more than the ratio of power outages due to severe weather overall.
 
-The test statistic is the proportion of power outages that have CAUSE.CATEGORY of severe weather
+The test statistic is the proportion of power outages that have `CAUSE.CATEGORY` of severe weather
 
 <iframe 
   src="assets/Empirical_Distribution_of_the_Observed_Statistic.html"
@@ -146,13 +146,13 @@ The p-value is 0.0. We reject the null hypothesis that the proportion of power o
 
 ## Framing a Prediction Problem
 
-Relevant covariates/predictors: TOTAL.PRICE, COM.PERCEN, POPPCT_UC
+Relevant covariates/predictors: `TOTAL.PRICE`, `COM.PERCEN`, `POPPCT_UC`
 
-Target variable: 'IND.PERCEN'
+Target variable: `IND.PERCEN`
 
-Using the correlation matrix below, we wanted to find a column to predict that had some correlation but wasn't too easy to predict. For example, predicting TOTAL.SALES would be too easy as it's just the sum of RES.SALES, COM.SALES, and IND.SALES. We found that, using regression, IND.PERCEN would be a good variable with okay correlation. It would also be good to predict how much of the total electricity consumption in a state comes from industry rather than residents because so many state policies try to limit electricity consumption by residents while ignoring just how much is consumed by industry.
+Using the correlation matrix below, we wanted to find a column prediction that had some correlation but wasn't too easy to predict. For example, predicting TOTAL.SALES would be too easy as it's just the sum of `RES.SALES`, `COM.SALES`, and `IND.SALES`. We found that, using regression, `IND.PERCEN` would be a good variable with an okay correlation. It would also be good to predict how much of the total electricity consumption in a state comes from industry rather than residents because so many state policies try to limit electricity consumption by residents while ignoring just how much is consumed by industry.
 
-We will use accuracy in predicting because we want our model predicting as closely as possible to the actual IND.PERCEN. It doesn't matter if it's over or under.
+We will use accuracy in predicting because we want our model to predict as closely as possible to the actual `IND.PERCEN`. It doesn't matter if it's over or under.
 
 <iframe 
   src="assets/Correlation.html"
@@ -161,15 +161,15 @@ We will use accuracy in predicting because we want our model predicting as close
   frameborder="0"
 ></iframe>
 
-The remaining features in the dataset are either derived from the predictors that we have chosen, or are features that may not be as relevant to the causes of power outages.
+The remaining features in the dataset are either derived from the predictors that we have chosen or are features that may not be as relevant to the causes of power outages.
 
 ## Baseline Model
 
-We used KNeighborsRegressor with 20 neighbors. We chose our predictors by checking which features correlated the most with IND.PERCEN. They are all quantitative. The accuracy score ended up being around .786. It works okay, but we want a more accurate predictor.
+We used KNeighborsRegressor with 20 neighbors. We chose our predictors by checking which features correlated the most with `IND.PERCEN`. They are all quantitative. The accuracy score ended up being around 0.786. It works okay, but we want a more accurate predictor.
 
 ## Final Model
 
-We engineered all our relevant columns to have a standard distribution with the StandardScaler transformer to normalize the data. This doesn't change anything for most regressor's but it does make a difference for ours, KNeighborsRegressor, because the distance isn't being heavily over-influenced by the larger numbers in the COM.PERCEN column. Afterwards, we used QuantileTransformer to turn every column into quantiles because we believed that the small differences in each number didn't make too much of a difference in the values of IND.PERCEN.
+We engineered all our relevant columns to have a standard distribution with the StandardScaler transformer to normalize the data. This doesn't change anything for most regressor's but it does make a difference for ours, KNeighborsRegressor, because the distance isn't being heavily over-influenced by the larger numbers in the `COM.PERCEN` column. Afterwards, we used QuantileTransformer to turn every column into quantiles because we believed that the small differences in each number didn't make too much of a difference in the values of `IND.PERCEN`.
 
 We found the best hyperparameters n_quantiles and n_neighbors through GridSearchCV. Testing quantiles of range(20, 1001, 20) and neighbors of range(1, 31), the best n_quantiles was 500, and the best n_neighbors was 2. We believe the best n_neighbors is so low because each city is very different from one another in their industries, geography, and population.
 
@@ -177,11 +177,11 @@ The final model's accuracy is 0.896, a 12% increase over our baseline model.
 
 ## Fairness Analysis
 
-We'll test this model for fairness among earlier years (2000-2008) and later years (2009-2016).
+We'll test this model for fairness among earlier years (2000-2008) and later years (2009-2016) defined in the `year_range` column.
 
 Null Hypothesis: The model performs the same for earlier years (2000-2008) and later years (2009-2016).
 
-Alternative Hypothesis: The model performs worse for earlier years (2000-2008) than later years (2009-2016).
+Alternative Hypothesis: The model performs worse in earlier years (2000-2008) than in later years (2009-2016).
 
 <iframe 
   src="assets/Empirical_Distribution_of_the_Observed_Fairness_Statistic.html"
@@ -190,7 +190,7 @@ Alternative Hypothesis: The model performs worse for earlier years (2000-2008) t
   frameborder="0"
 ></iframe>
 
-We used TVD with significance level 0.05. The resulting p-value was 0.8, which is greater than 0.05, so there is no significant evidence that the model performs differently on earlier years and later years.
+We used TVD with a significance level of 0.05. The resulting p-value was 0.8, which is greater than 0.05, so there is no significant evidence that the model performs differently in earlier years and later years.
 
 ## References
 [1] Sayanti Mukherjee, Roshanak Nateghi, Makarand Hastak, Data on major power outage events in the continental U.S., Data in Brief, Volume 19, 2018, Pages 2079-2083, ISSN 2352-3409, https://doi.org/10.1016/j.dib.2018.06.067. (https://www.sciencedirect.com/science/article/pii/S2352340918307182)
