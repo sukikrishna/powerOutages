@@ -38,6 +38,8 @@ The relevant columns for the people affected by power outages are `TOTAL.PRICE`,
 |`'CLIMATE.REGION'`	       |U.S. Climate regions as specified by National Centers for Environmental Information (nine climatically consistent regions in continental U.S.A.)|
 |`'HURRICANE.NAMES'`	       |If the outage is due to a hurricane, then the hurricane name is given by this variable|
 
+NOTE: For consistency, we set a random seed of 321 for every random sample that was generated in the notebook.
+
 ## Data Cleaning and Exploratory Data Analysis
 
 Before analyzing our power outage dataset, we would first conduct data cleaning to make the data more convenient for analysis.
@@ -47,7 +49,7 @@ We deleted the rows and columns that didn't have data on the Excel file containi
 The first 5 rows of the raw DataFrame is shown in the following table:
 
 <iframe 
-  src="assets/df.html"
+  src="assets/df_full.html"
   width="800"
   height="600"
   frameborder="0"
@@ -59,7 +61,12 @@ For the purposes of our hypothesis test, we converted the `CAUSE.CATEGORY` colum
 
 After data cleaning, the first 5 rows of the resulting DataFrame are shown below in the following table:
 
-***INCLUDE CLEANED HEAD DF***
+<iframe 
+  src="assets/df.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
 
 
 **Distribution of Columns and Aggregates**
@@ -128,7 +135,7 @@ We perform a permutation test to check if the `CAUSE.CATEGORY.DETAIL` missingnes
 *Alternative hypothesis*: The missingness of `CAUSE.CATEGORY.DETAIL` does depend on `CAUSE.CATEGORY`.
 
 <iframe 
-  src="assets/Empirical_Distribution_of_the_TVD.html"
+  src="assets/Empirical_Distribution_of_the_TVD_CAUSE.CATEGORY.html"
   width="800"
   height="600"
   frameborder="0"
@@ -136,11 +143,19 @@ We perform a permutation test to check if the `CAUSE.CATEGORY.DETAIL` missingnes
 
 As observed from the graph above, the p-value is close to 0, which is within the significance level of 0.05 (5%). If the p-value were within the threshold that would suggest that the data is missing completely at random (MCAR). We reject the null hypothesis in favor of the alternative hypothesis that `CAUSE.CATEGORY.DETAIL` missingness <u>does</u> depend on `CAUSE.CATEGORY`.
 
+*Null hypothesis*: The missingness of `CAUSE.CATEGORY.DETAIL` does not depend on `HURRICANE.NAMES`.
 
-**NEED MISSINGNESS OF COLUMN DEPENDENT AND NOT DEPENDENT ON SELECTED COLUMN**
+*Alternative hypothesis*: The missingness of `CAUSE.CATEGORY.DETAIL` does depend on `HURRICANE.NAMES`.
 
+<iframe 
+  src="assets/Empirical_Distribution_of_the_TVD_HURRICANE.NAMES.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
 
-As observed from the graph above, the p-value is close to 1 far greater than our significance level of 0.05 (5%). If the p-value were within the threshold that would suggest that the data is missing completely at random (MCAR). We fail to reject the null hypothesis that `CAUSE.CATEGORY.DETAIL` missingness <u>does not</u> depend on `CAUSE.CATEGORY`.
+As observed from the graph above, the p-value is close to 1, which is outside the significance level of 0.05 (5%). We faile to reject the null hypothesis. `CAUSE.CATEGORY.DETAIL` missingness does not depend on `HURRICANE.NAMES`.
+
 
 ## Hypothesis Testing
 
@@ -202,9 +217,9 @@ Afterward, we used `QuantileTransformer` to turn every column into quantiles bec
 
 For hyperparameter tuning, we found the best hyperparameters n_quantiles for the `QuantileTransformer` and n_neighbors for the `KNeighborsRegressor` through `GridSearchCV`. Grid Search performs an exhaustive search across specified hyperparameter ranges to find the best combination of parameters that maximizes model performance.
 
-Testing 'n_quantiles' of `range(20, 1001, 20)` and 'n_neighbors' of `range(1, 31)`, the best 'n_quantiles' was 500, and the best 'n_neighbors' was 2. We believe the best 'n_neighbors' are so low because each city is very different from one another in their industries, geography, and population.
+Testing 'n_quantiles' of `range(20, 1001, 20)` and 'n_neighbors' of `range(1, 31)`, the best 'n_quantiles' was 80, and the best 'n_neighbors' was 2. We believe the best 'n_neighbors' are so low because each city is very different from one another in their industries, geography, and population.
 
-The final model achieved an accuracy of 0.896, which is a 12% improvement over the baseline model's performance. This improvement indicates that applying the feature engineering techniques, along with hyperparameter tuning, effectively enhanced the model's predictive capability.
+The final model achieved an accuracy of 0.974, which is a 21% improvement over the baseline model's performance. This improvement indicates that applying the feature engineering techniques, along with hyperparameter tuning, effectively enhanced the model's predictive capability.
 
 ## Fairness Analysis
 
@@ -221,7 +236,7 @@ Alternative Hypothesis: The model performs worse in earlier years (2000-2008) th
   frameborder="0"
 ></iframe>
 
-We used TVD with a significance level of 0.05. The resulting p-value was 0.8, which is greater than 0.05, so there is no significant evidence that the model performs differently in earlier years and later years.
+We used TVD with a significance level of 0.05. The resulting p-value was 0.032, which is less than 0.05, so there is significant evidence that the model performs worse in earlier years and later years.
 
 ## References
 [1] Sayanti Mukherjee, Roshanak Nateghi, Makarand Hastak, Data on major power outage events in the continental U.S., Data in Brief, Volume 19, 2018, Pages 2079-2083, ISSN 2352-3409, https://doi.org/10.1016/j.dib.2018.06.067. (https://www.sciencedirect.com/science/article/pii/S2352340918307182)
