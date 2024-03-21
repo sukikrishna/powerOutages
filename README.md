@@ -134,6 +134,12 @@ We perform a permutation test to check if the `CAUSE.CATEGORY.DETAIL` missingnes
   frameborder="0"
 ></iframe>
 
+As observed from the graph above, the p-value is close to 0, which is within the significance level of 0.05 (5%). If the p-value were within the threshold that would suggest that the data is missing completely at random (MCAR). We reject the null hypothesis in favor of the alternative hypothesis that `CAUSE.CATEGORY.DETAIL` missingness <u>does</u> depend on `CAUSE.CATEGORY`.
+
+
+
+
+
 As observed from the graph above, the p-value is close to 1 far greater than our significance level of 0.05 (5%). If the p-value were within the threshold that would suggest that the data is missing completely at random (MCAR). We fail to reject the null hypothesis that `CAUSE.CATEGORY.DETAIL` missingness <u>does not</u> depend on `CAUSE.CATEGORY`.
 
 ## Hypothesis Testing
@@ -174,7 +180,19 @@ The remaining features in the dataset are either derived from the predictors tha
 
 ## Baseline Model
 
-We used KNeighborsRegressor with 20 neighbors. We chose our predictors by checking which features correlated the most with `IND.PERCEN`. They are all quantitative. The accuracy score ended up being around 0.786. It works okay, but we want a more accurate predictor.
+The baseline model consists of a pipeline that includes a K-Nearest Neighbors (KNN) regression model to predict the 'IND.PERCEN' variable based on features 'TOTAL.PRICE', 'COM.PERCEN', and 'POPPCT_UC'. We chose our predictors by checking which features correlated the most with `IND.PERCEN`.
+
+The K-Nearest Neighbors (KNN) regression model is being tested because this algorithm is a common approach for predicting the value of a target variable by finding the k closest data points in the feature space to the input data point and averaging their target values to form the final prediction.
+
+All three features in the model ('TOTAL.PRICE', 'COM.PERCEN', and 'POPPCT_UC') are quantitative, and there are no ordinal or nominal features.
+
+For the baseline model, no explicit encoding was performed.
+
+The model's performance is evaluated using the R-squared metric, which measures the proportion of the variance in the target variable that is predictable from the input features. Generally, higher R-squared values closer to 1 indicate better predictive performance.
+
+The `KNeighborsRegressor` was initialized with a parameter of 20 neighbors. The accuracy score ended up being around 0.786. 
+
+It works okay, but we want a more accurate predictor.
 
 ## Final Model
 
