@@ -135,7 +135,7 @@ We perform a permutation test to check if the `CAUSE.CATEGORY.DETAIL` missingnes
 *Alternative hypothesis*: The missingness of `CAUSE.CATEGORY.DETAIL` does depend on `CAUSE.CATEGORY`.
 
 <iframe 
-  src="assets/Empirical_Distribution_of_the_TVD_CAUSE.CATEGORY.html"
+  src="assets/Empirical_Distribution_of_the_TVD.html"
   width="800"
   height="600"
   frameborder="0"
