@@ -44,11 +44,7 @@ Before analyzing our power outage dataset, we would first conduct data cleaning 
 
 We deleted the rows and columns that didn't have data on the Excel file containing the raw data, then we converted the Excel file into a CSV file.
 
-The data types for all of the features we were analyzing were of an appropriate data type. The `MONTH` column was typecasted from floats to ints since this column only contained integer values. For the `CUSTOMERS.AFFECTED` feature, the NaN values were filled in with 0. This is because we could assume that if `CUSTOMERS.AFFECTED` was so insignificant that it wasn't recorded, there probably wasn't anyone affected.
-
-For the purposes of our hypothesis test, we converted the `CAUSE.CATEGORY` column into a binary column of values "severe weather" and "other" for any other cause. The `YEARS` column was converted to a binary `year_range` column to specify if the power outage occurred in the first half or second half of our data time range (2000-2008 and 2009-2016 respectively). We don't have any missing data in either of these categories.
-
-After data cleaning, the first 5 rows of the resulting DataFrame are shown below in the following table:
+The first 5 rows of the raw DataFrame is shown in the following table:
 
 <iframe 
   src="assets/df.html"
@@ -56,6 +52,15 @@ After data cleaning, the first 5 rows of the resulting DataFrame are shown below
   height="600"
   frameborder="0"
 ></iframe>
+
+The data frame was filtered to include only the columns that would be analyzed or included in an analysis. The data types for all of the features we were analyzing were of an appropriate data type. The `MONTH` column was typecasted from floats to ints since this column only contained integer values. For the `CUSTOMERS.AFFECTED` feature, the NaN values were filled in with 0. This is because we could assume that if `CUSTOMERS.AFFECTED` was so insignificant that it wasn't recorded, there probably wasn't anyone affected.
+
+For the purposes of our hypothesis test, we converted the `CAUSE.CATEGORY` column into a binary column of values "severe weather" and "other" for any other cause. The `YEARS` column was converted to a binary `year_range` column to specify if the power outage occurred in the first half or second half of our data time range (2000-2008 and 2009-2016 respectively). We don't have any missing data in either of these categories.
+
+After data cleaning, the first 5 rows of the resulting DataFrame are shown below in the following table:
+
+***INCLUDE CLEANED HEAD DF***
+
 
 **Distribution of Columns and Aggregates**
 
@@ -116,7 +121,11 @@ MD: `HURRICANE.NAMES` is missing by design. It only has a value if `CAUSE.CATEGO
 
 The test statistic is the TVD between the distribution of causes when the cause details are missing or not missing
 
-We perform a permutation test to check if the `CAUSE.CATEGORY.DETAIL` missingness depends on `CAUSE.CATEGORY`
+We perform a permutation test to check if the `CAUSE.CATEGORY.DETAIL` missingness depends on `CAUSE.CATEGORY` with Total Variation Distance (TVD) as the test statistic.
+
+*Null hypothesis*: The missingness of `CAUSE.CATEGORY.DETAIL` does not depend on `CAUSE.CATEGORY`.
+
+*Alternative hypothesis*: The missingness of `CAUSE.CATEGORY.DETAIL` does depend on `CAUSE.CATEGORY`.
 
 <iframe 
   src="assets/Empirical_Distribution_of_the_TVD.html"
@@ -125,15 +134,15 @@ We perform a permutation test to check if the `CAUSE.CATEGORY.DETAIL` missingnes
   frameborder="0"
 ></iframe>
 
-As the pvalue is close to 1 that suggests the data is missing completely at random (MCAR). `CAUSE.CATEGORY.DETAIL` missingness does not depend on `CAUSE.CATEGORY`.
+As observed from the graph above, the p-value is close to 1 far greater than our significance level of 0.05 (5%). If the p-value were within the threshold that would suggest that the data is missing completely at random (MCAR). We fail to reject the null hypothesis that `CAUSE.CATEGORY.DETAIL` missingness <u>does not</u> depend on `CAUSE.CATEGORY`.
 
 ## Hypothesis Testing
 
-Null hypothesis: The ratio of power outages due to severe weather from 2000-2008 is equal to the ratio of power outages due to severe weather overall.
+*Null hypothesis*: The ratio of power outages due to severe weather from 2000-2008 is equal to the ratio of power outages due to severe weather overall.
 
-Alternative hypothesis: The ratio of power outages due to severe weather from 2000-2008 is more than the ratio of power outages due to severe weather overall.
+*Alternative hypothesis*: The ratio of power outages due to severe weather from 2000-2008 is more than the ratio of power outages due to severe weather overall.
 
-The test statistic is the proportion of power outages that have `CAUSE.CATEGORY` of severe weather
+The test statistic is the proportion of power outages that have `CAUSE.CATEGORY` of severe weather.
 
 <iframe 
   src="assets/Empirical_Distribution_of_the_Observed_Statistic.html"
@@ -142,7 +151,7 @@ The test statistic is the proportion of power outages that have `CAUSE.CATEGORY`
   frameborder="0"
 ></iframe>
 
-The p-value is 0.0. We reject the null hypothesis that the proportion of power outages due to severe weather are similar between 2000-2008 and overall number of power outages in favor of the alternative hypothesis in favor of the alternative hypothesis that the ratio of power outages due to severe weather from 2000-2008 is more than the ratio of power outages due to severe weather overall.
+The p-value is 0.0. We reject the null hypothesis that the proportion of power outages due to severe weather is similar between 2000-2008 and an overall number of power outages in favor of the alternative hypothesis in favor of the alternative hypothesis that the ratio of power outages due to severe weather from 2000-2008 is more than the ratio of power outages due to severe weather overall.
 
 ## Framing a Prediction Problem
 
