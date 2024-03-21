@@ -1,6 +1,6 @@
 ## Introduction
 
-Understanding the causes of power outages and who they affect can be an important analysis for ensuring the efficiency and reliability of current infrastructure to prevent or be prepared for future occurrences. 
+Understanding the causes of power outages and who they affect can be an important analysis for ensuring the efficiency and reliability of current infrastructure to prevent or be prepared for future occurrences.
 
 The "Major Power Outage Risks in the U.S." dataset comes from the Laboratory for Advancing Sustainable Critical Infrastructure at Purdue University.
 
@@ -36,11 +36,15 @@ The relevant columns for the people affected by power outages are TOTAL.PRICE, C
 
 ## Data Cleaning and Exploratory Data Analysis
 
-We deleted rows and a column that didn't have data. Then we converted the Excel file into a CSV.
+Before analyzing our power outage dataset, we would first conduct data cleaning to make the data more convenient for analysis.
 
-The MONTH column was changed from floats to ints since they are all whole numbers. For both MONTHS and CUSTOMERS.AFFECTED, we filled NaN values with 0. We could assume that if CUSTOMERS.AFFECTED was so insignificant that it wasn't recorded, there probably wasn't anyone affected.
+We deleted the rows and columns that didn't have data on the Excel file containing the raw data, then we converted the Excel file into a CSV file.
 
-For the purposes of our hypothesis test, we converted the CAUSE.CATEGORY column into a binary column of values "severe weather" and "other" for any other cause. The YEARS column was converted to a binary "year_range" column to specify if the power outage occurred in the first half or second half of our data time range (2000-2008 and 2009-2016 respectively). We don't have any missing data in either of these categories.
+The data types for all of the features we were analyzing were of an appropriate data type. The `MONTH` column was typecasted from floats to ints since this column only contained integer values. For the `CUSTOMERS.AFFECTED` feature, the NaN values were filled in with 0. This is because we could assume that if `CUSTOMERS.AFFECTED` was so insignificant that it wasn't recorded, there probably wasn't anyone affected.
+
+For the purposes of our hypothesis test, we converted the `CAUSE.CATEGORY` column into a binary column of values "severe weather" and "other" for any other cause. The `YEARS` column was converted to a binary `year_range` column to specify if the power outage occurred in the first half or second half of our data time range (2000-2008 and 2009-2016 respectively). We don't have any missing data in either of these categories.
+
+After data cleaning, the first 5 rows of the resulting DataFrame are shown below in the following table:
 
 <iframe 
   src="assets/df.html"
@@ -48,6 +52,8 @@ For the purposes of our hypothesis test, we converted the CAUSE.CATEGORY column 
   height="600"
   frameborder="0"
 ></iframe>
+
+**Distribution of Columns and Aggregates**
 
 <iframe 
   src="assets/Number_of_Power_Outages_over_Time.html"
